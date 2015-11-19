@@ -1,0 +1,89 @@
+<?php
+	/********************************************************************
+	 * Author : KARTHIK R												*
+	 * Git Account : https://github.com/karthik93r/php					*
+	 * E-mail : mcakarthikr@gmail.com									*
+	 * Description : Simple database connection class for ActiveRecord	*
+	 ********************************************************************/
+
+	class DbConnect {
+		/* For get POST Values 
+		* Arguments Details: 
+		* $key as string format
+		*/
+		public function getPost($key) {
+			if($key !== '') {
+				if(isset($_POST[$key]))
+					return $_POST[$key];
+				else
+					return '';
+			} else {
+				if(isset($_POST))
+					return $_POST;
+				else
+					return '';
+			}
+		}
+
+		/* To Change json to Array 
+		* Arguments Details: 
+		* $json as JSON format
+		*/
+		protected function json_to_array($json) {
+			$arr=array();
+			foreach($json as $k=>$v) {
+				$arr[] = json_decode($v->to_json(), true);
+			}
+			return $arr;
+		}
+
+		/* To Get all values or specified values as Array 
+		* Arguments Details: 
+		* $class as Table name as string/ActiveRecord object
+		* $options as array
+		*/
+		public function getAll($class, $options = '') {
+			$res = ($options === '')? $class :: find('all') : $class :: find('all',$options);
+			if(!$res) {
+				return null;
+			}
+			return $this->json_to_array($res);
+		}
+		
+		/* To Save given data 
+		* Arguments Details: 
+		* $class as Table name as string/ActiveRecord object
+		* $data as array
+		*/
+		public function save($class,$data) {
+			$obj = new $class($data);
+			$obj->save();
+			return $obj->id;
+		}
+		
+		/* To Delete given data 
+		* Arguments Details: 
+		* $class as Table name as string/ActiveRecord object
+		* $qry as array/id
+		*/
+		public function delete($class,$qry) {
+			$obj=$class::find($qry);
+			if($obj) {
+				$obj->delete();
+				return true;
+			} else {
+				return false;
+			}
+		}
+		
+		/* To Update by given data 
+		* Arguments Details: 
+		* $class as Table name as string/ActiveRecord object
+		* $data as array
+		* $where as array
+		*/
+		public function update($class,$data,$where) {
+			$class::table()->update($data,$where);
+		}
+	}
+?>
