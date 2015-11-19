@@ -1,0 +1,20 @@
+<?php
+	require_once 'php-activerecord/ActiveRecord.php';
+	require_once 'Db.php';
+
+	ActiveRecord\Config::initialize(function($cfg)
+	{
+		$cfg->set_model_directory('models');
+		$cfg->set_connections(array('development' => 'mysql://anto:123456@192.168.2.35/user15'));
+	});
+
+	$sqlobj = new DbConnect;
+	//$data['data']='testdata';
+	//$sqlobj->save(new test,$data);
+	//var_dump($sqlobj->delete(new test,array("id"=>"15")));
+	$sqlobj->update(test,array("data"=>"change"),array("id"=>"14"));
+	
+	echo "<pre>";
+		print_r($sqlobj->getAll(test));
+	echo "</pre>";
+?>
