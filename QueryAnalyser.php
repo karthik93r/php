@@ -44,6 +44,7 @@ if(!empty($_POST)) {
 ?>
 <html>
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
 		<!-- <link rel="stylesheet" href="//cdn.datatables.net/1.10.15/css/jquery.dataTables.min.css"> -->
 		<link rel="stylesheet" href="//cdn.datatables.net/1.10.15/css/dataTables.bootstrap.min.css">
@@ -53,11 +54,25 @@ if(!empty($_POST)) {
 		<script type="text/javascript" src="//cdn.datatables.net/1.10.15/js/jquery.dataTables.min.js"></script>
 		<script type="text/javascript" src="//cdn.datatables.net/1.10.15/js/dataTables.bootstrap.min.js"></script>
 		<!--<script type="text/javascript" src="//cdn.datatables.net/fixedheader/3.1.2/js/dataTables.fixedHeader.min.js"></script>-->
-		
+
 		<style type="text/css">
 			.no-radius { border-radius: 0px !important; }
 			.form-group { margin-bottom: 5px; }
 			.table-container table{ font-size: small !important; }
+			.query-block-container {
+				position: fixed;
+				top: 0px;
+				left: 0px;
+				bottom: 65%;
+				z-index: 1000;
+				background: #E7E7E7;
+			}
+			.answer-block-container {
+				position: absolute;
+				top: 220px;
+				left: 0px;
+				max-height: 100%;
+			}
 		</style>
 		<script type="text/javascript">
 		$(document).ready(function(){
@@ -72,8 +87,8 @@ if(!empty($_POST)) {
 	</head>
 	<body>
 		<div class='container-fluid text-center'>
-			<h3>Query Analyser - <small>Karthik R</small></h3>
-			<div class='col-sm-12'>
+			<div class='col-sm-12 query-block-container'>
+				<h4>Query Analyser - <small>Karthik R</small></h4>
 				<form method='post' action=''>
 					<div class='col-sm-9'>
 						<textarea class="form-control no-radius" rows="9" placeholder="Query Block " name="query_block"><?= $_REQUEST['query_block']; ?></textarea>
@@ -95,10 +110,8 @@ if(!empty($_POST)) {
 					</div>
 				</form>
 			</div>
-			<div class='col-sm-12'>
+			<div class='col-sm-12 answer-block-container'>
 				<hr>
-			</div>
-			<div class='col-sm-12'>
 				<div class="table-responsive table-container">
 				  <table class="table table-bordered">
 				  	<thead>
